@@ -542,14 +542,137 @@
         </q-select>
     </q-card-section>
     <q-separator/>
-       
-    <!-- 생명주기 훅 -->
+
+    <input type="radio" v-model="picked" value="가"/>
+    <input type="checkbox" v-model="toggle"/>
+
+    <select v-model="selected">
+        <option value="kor">kor</option>
+    </select>
+    <q-separator/>
+
+    <q-card-section class="col-4 q-mt-md">
+        <q-toggle v-model="value" color="green" label="on right"
+            true-value="yes"
+            false-value="no"
+        /> {{ value }}
+    </q-card-section>
+    <q-separator/>
     
+    <q-card-section class="col-4 q-mt-md">
+        <q-toggle v-model="value2" color="green" label="on right"
+            :true-value="dynamicTrueValue"
+            :false-value="dynamicFalseValue"
+        /> {{ value2 }}
+    </q-card-section>
+    <q-separator/>
+
+    <q-card-section class="col-4 q-mt-md">
+        <q-radio v-model="color1" :val="first" label="Teal" color="teal"/>
+        <q-radio v-model="color1" :val="second" label="Orange" color="orange"/>
+        <q-card-section>
+            {{ color1 }}
+        </q-card-section>
+    </q-card-section>
+    <q-separator/>
+    
+    <select v-model="selected">
+        <option :value="{ number : 123 }">123</option>
+    </select>
+    <q-separator/>
+
+    <input v-model.lazy="msg"/>
+    <q-separator/>
+    <input v-model.number="age"/>
+    <q-separator/>
+    <input v-model.trim="msg"/>
+    <q-separator/>
+
+    <!-- 생명주기 훅 => 없음 -->
     <!-- 감시자 -->
+    <p>
+        Y or NO [질문] : <input v-model="question"/>
+    </p>
+    <p>{{ answer }}</p>
+
+    <!-- 
+        깊은 감시자, 
+        열성적 감시자,
+        콜백 실행 타이밍,
+        this.$watch()
+        
+        [질문]
+    -->
+    <q-separator/>
     
     <!-- 템플릿 참조 -->
+    <input ref="input">
+    <ul>
+        <!-- 밑에 빨간줄 상관없음 -->
+        <li v-for="item in list" ref="items">
+            {{ item }}
+        </li>
+    </ul>
+
+    <input :ref="(el) => {
+        //속성이나 ref에 el 할당
+    }">
+    <q-separator/>
+
+    <!-- 컴포넌트에 ref 사용 [질문]-->
+    <a>컴포넌트에 ref</a>
+    <Child ref="child"/>
 
     <!-- 컴포넌트 기초 -->
+    <h5>아래에 자식 컴포넌트가 있다.</h5>
+    <ButtonCounter/>
+
+    <q-separator/>
+    <h5>아래에 많은 자식 컴포넌트가 있다.</h5>
+    <ButtonCounter/>
+    <ButtonCounter/>
+    <ButtonCounter/>
+    <!-- DOM이 뭔지 [질문] -->
+
+    <q-separator/>
+    <!-- BlogPost vue -->
+    <BlogPost title="Vue와 함께한 나의 여행"></BlogPost>
+    <BlogPost title="Vue로 블로깅하기" />
+    <BlogPost title="Vue가 재미있는 이유" />
+
+    <div :style="{ fontSize: postFontSize + 'em' }">
+        <BlogPost
+            v-for="post in posts"
+            :key="post.id"
+            :title="post.title"
+            @enlarge-text="postFontSize += 0.1"
+        />
+    </div>
+    <q-separator/>
+    <br>
+
+    <!--AlertBox-->
+    <AlertBox>
+        Something bad...
+    </AlertBox>
+    <q-separator/>
+    <br>
+
+    <!-- Tab interface-->
+    <TabInterface/> <!-- 셀프 태그 닫기-->
+    <q-separator/>
+    <br>
+
+    <!-- 
+        DOM Templet parsing warn [질문] 
+        파싱 구현을 어떻게 하는지,
+
+        <BlogPost/>
+        <span>hello</span>
+
+        를 해도 일반적인 blogpost가 작동된다.
+    -->
+    
 </template>
 
 <script>
@@ -564,26 +687,37 @@ import { debounce } from 'lodash' //lodash-es 시 오류
 //클래스와 스타일 바인딩
 import ClassChild from "components/ClassChild.vue"
 
-//Form 입력 바인딩
-//생명주기 훅
-//감시자
 //템플릿 참조
+import Child from "components/Child.vue"
+
 //컴포넌트 기초
+import ButtonCounter from 'components/ButtonCounter.vue'
+import BlogPost from 'components/BlogPost.vue'
+import AlertBox from 'components/AlertBox.vue'
+import TabInterface from 'components/TabInterface.vue'
+
+//DOM 템플릿 파싱 주의 사항 테스트 (작동 안됨 - [질문])
+import Test from 'components/Test.vue'
 
 export default {
     name:'VueEx',
     title:'Vue Basic',
     components:{
         //클래스와 스타일 바인딩
-        ClassChild
+        ClassChild,
 
-        //Form 입력 바인딩
-        //생명주기 훅
-        //감시자
         //템플릿 참조
+        Child,
+
         //컴포넌트 기초
+        ButtonCounter,
+        BlogPost,
+        AlertBox,
+        TabInterface,
+        Test,
     },
     data() {
+        //기존 반환
         return {
             //템플릿 문법
             msg: "hello Vue",
@@ -740,10 +874,36 @@ export default {
             model: null,
             model2:[],
 
-            //생명주기 훅
+            value:"yes",
+
+            value2:"NO",
+            dynamicTrueValue:"YES",
+            dynamicFalseValue:"NO",
+
+            color1:"",
+            first:"select 1",
+            second:"select 2",
+
+            //생명주기 훅 => 없음
             //감시자
+            question: '',
+            answer: '[질문]에는 일반적으로 물음표가 포함됩니다.',
+            count: 0,
+
             //템플릿 참조
+            list: [
+                'a',
+                'b',
+                'c'
+            ],
+
             //컴포넌트 기초
+            posts: [
+                { id: 1, title: 'Vue와 함께한 나의 여행' },
+                { id: 2, title: 'Vue로 블로깅하기' },
+                { id: 3, title: 'Vue가 재미있는 이유' }
+            ],
+            postFontSize: 1
         }
     },
     computed: {
@@ -791,12 +951,6 @@ export default {
             const numbers = this.numbers;
             return [...numbers].reverse();
         },
-
-        //Form 입력 바인딩
-        //생명주기 훅
-        //감시자
-        //템플릿 참조
-        //컴포넌트 기초
     },
     watch: {
         //반응형 기초
@@ -804,7 +958,46 @@ export default {
             function(newVal, oldVal) {
                 console.log(newVal, oldVal)
             }, 500
-        )
+        ),
+        //감시자
+        question(newQuestion, oldQuestion) {
+            if(newQuestion.includes('?'))
+                this.getAnswer()
+        },
+        'some.nasted.key'(newValue) {
+            //null
+        },
+
+        //감시자 - 깊은 감시자
+        someObject: {
+            handler(newValue, oldValue) {
+                //some obj가 교체되지 않는 이상 newval, oldval은 같다
+            },
+            deep: true
+        },
+        //감시자 - 열성적 감시자
+        question2: {
+            handler(newQuestion) {
+
+            },
+            immediate: true
+        },
+        //감시자 - 콜백 실행
+        /*
+        key: {
+            handler() {},
+            flush: 'post'
+        },
+        */
+        count: {
+            handler(val, preVal) {
+                console.log('is changed!', val, preval)
+            },
+            flush: 'sync'
+        }
+    },
+    unwatch() {
+        //감시자 중지일때
     },
     mounted() {
         //반응형 기초
@@ -830,14 +1023,20 @@ export default {
         //생명주기 훅
         console.log("component mounted!!@#$");
 
-        //감시자
         //템플릿 참조
-        //컴포넌트 기초
+        this.$refs.input.focus();
+        console.log(this.$refs.items);
     },
     created() {
         //반응형 기초
-        this.debouncedClick = _.debounce(this.click, 500)
-        console.log("created")
+        this.debouncedClick = _.debounce(this.click, 500);
+        console.log("created");
+
+        //감시자 - 선언적 생성?
+        /*
+        this.$watch('question', (newQuestion) = {
+        })
+        */
     },
     unmounted() {
         //반응형 기초
@@ -967,11 +1166,26 @@ export default {
             console.log("doThat event", event);
         },
 
-        //Form 입력 바인딩
-        //생명주기 훅
         //감시자
-        //템플릿 참조
-        //컴포넌트 기초
+        async getAnswer() {
+            this.answer = '생각 중...'
+            try {
+                const res = await fetch('https://yesno.wtf/api')
+                this.answer = (await res.json().answer === 'yes' ? 'y' : 'n')
+            }
+            catch(err) {
+                this.answer = "오류, API 연걸 불가" + err
+            }
+        },
+
+        w_increment() {
+            this.count++
+            //callback 1
+            this.count++
+            //callback 2
+            this.count++
+            //callback 3
+        },
     }
 }
 </script>
@@ -1001,10 +1215,4 @@ export default {
         width:100%;
         max-width: 250px;
     }
-
-    /* Form 입력 바인딩 */
-    /* 생명주기 훅 */
-    /* 감시자 */
-    /* 템플릿 참조 */
-    /* 컴포넌트 기초 */
 </style>
