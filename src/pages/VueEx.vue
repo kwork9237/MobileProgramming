@@ -135,14 +135,414 @@
 
     <q-card-section :class="classObj">change color 4</q-card-section>
 
+    <q-card-section :class="[activeClass, errorClass]">change color 5</q-card-section>
+
+    <q-card-section :class="[isActive ? activeClass : '', errorClass]">change color 6</q-card-section>
+
+    <q-card-section :class="[{active:isActive}, errorClass]">change color 7</q-card-section>
+    <q-separator/>
+
+    <!-- 클래스&스타일 바인딩 / 컴포넌트 추가시 -->
+    <q-card-section :class="{foo:true, bar:true}">안녕! 1</q-card-section>
+
+    <class-child></class-child>
+    <class-child :class="[baz, boo]"></class-child>
+    <class-child :class="{ active : isActive }"></class-child>
+
+    <q-card-section :class="{foo : true, bar : true}" :id="$attrs.id">안녕! 2</q-card-section>
+    <class-child id="hi">hi</class-child>
+
+    <q-card-section :style="styleObject">change color1</q-card-section>
+    <q-card-section :style="[baseStyles, overridingStyles]">change color2</q-card-section>
+
+    <div :style="{ display: ['flex', '-webkit-box', '-ms-flexbox']}">aaa</div>
+    <q-separator/>
+
     <!-- 조건부 렌더링 -->
+    <q-card-section v-if="awesome2">Vue is Awesome!</q-card-section>
+
+    <q-btn @click="awesome2 = !awesome2" label="toggle"></q-btn>
+    <q-card-section v-if="awesome2">Vue is Awesome!</q-card-section>
+    <q-card-section v-else>oh no!</q-card-section>
+    <q-separator/>
+
+    <q-card-section v-if="type2 == 'A'"> A </q-card-section>
+    <q-card-section v-else-if="type2 === 'B'"> B </q-card-section>
+    <q-card-section v-else-if="type2 === 'C'"> C </q-card-section>
+    <q-card-section v-else> Not A/B/C </q-card-section>
+    <q-separator/>
+
+    <div class="q-pa-md row items-start q-gutter-md">
+        <q-card v-if="ok2"
+            dark
+            bordered
+            class="bg-grey-9 my-card">
+            <q-card-section>
+                <div class="text-h6">our changing planet</div>
+                <div class="text-subtitle2">by John Doe</div>
+            </q-card-section>
+            <q-separator dark inset/>
+            <q-card-section>
+                Lorem ipsum dolor sit amet, consetetur adipiscing elit, sed do eiusmod
+                tempor incididunt ut labore et dolore magna aliqua.
+            </q-card-section>
+        </q-card>
+    </div>
+    <q-separator/>
+
+    <div class="q-pa-md row items-start q-gutter-md">
+        <q-card
+            v-show="ok2"
+            dark
+            bordered
+            class="my-card text-white"
+            style="background: radial-gradient(circle, #35A2FF 0%, #014A88 100%)"
+        >
+            <q-card-section>
+                <div class="text-h6">Our Changing Planet</div>
+                <div class="text-subtitle2">by John Doe</div>
+            </q-card-section>
+            <q-separator dark inset/>
+            <q-card-section>
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
+                tempor incididunt ut labore et dolore magna aliqua.
+            </q-card-section>
+        </q-card>
+    </div>
+    <q-separator/>
 
     <!-- 리스트 렌더링 -->
-    
+    <div class="q-pa-md">
+        <q-list v-for="(item, idx) in listItems" :key="idx" bordered separator>
+            <q-item clickable v-ripple>
+                <q-item-section>
+                    {{ idx + 1 }}. {{ item.message }}
+                </q-item-section>
+            </q-item>
+        </q-list>
+    </div>
+    <q-separator/>
+
+    <div class="q-pa-md">
+        <q-list v-for="(item, index) in listItems2" :key="index" bordered separator>
+            <q-item clickable v-ripple>
+                <q-item-section>
+                    {{ parentMessage }} - {{ index + 1 }} - {{ item.message }}
+                </q-item-section>
+            </q-item>
+        </q-list>
+    </div>
+
+    <div class="q-pa-md">
+        <q-list v-for="({message}, index) in listItems2" :key="index" bordered separator>
+            <q-item clickable v-ripple>
+                <q-item-section>
+                    {{ message }} - {{ index + 1 }}
+                </q-item-section>
+            </q-item>
+        </q-list>
+    </div>
+
+    <div class="q-pa-md">
+        <q-list v-for="(item, index) in tupleListItems" :key="index" bordered separator>
+            <q-item clickable v-ripple>
+                <q-item-section v-for="(childItem, index) in item.children" :key="index">
+                    <q-item-section>
+                        {{ item.message }} - {{ childItem }}
+                    </q-item-section>
+                </q-item-section>
+            </q-item>
+        </q-list>
+    </div>
+
+    <div class="q-pa-md">
+        <q-list v-for="({message}, index) of listItems2" :key="index" bordered separator>
+            <q-item clickable v-ripple>
+                <q-item-section>
+                    {{ message }} - {{ index }}
+                </q-item-section>
+            </q-item>
+        </q-list>
+    </div>
+    <q-separator/>
+
+    <div class="q-pa-md">
+        <q-list
+            v-for="(value, key, idx) in myObject"
+            :key="idx"
+            bordered
+            separator
+        >
+        <!--
+            v-for="(value, key) in myObject"
+            v-for="(value, key, idx) in myObject"
+        -->
+            <q-item clickable v-ripple>
+                <q-item-section>
+                    {{ idx + 1 }}. {{ key }} : {{ value }}
+                </q-item-section>
+            </q-item>
+        </q-list>
+    </div>
+
+    <!-- 1부터 시작된다. -->
+    <div class="q-pa-md row items=start">
+        <q-list v-for="n in 10" :key="n" bordered separator>
+            <q-item-section>
+                {{ n }}
+            </q-item-section>
+        </q-list>
+    </div>
+
+    <!-- 작동 안함 -->
+    <div class="q-pa-md items-start">
+        <my-component
+            v-for="(item, index) in listItems"
+            :key="index"
+            :item="item"
+            :index="index"
+        >
+        </my-component>
+    </div>
+
+    <q-card-section>
+        {{ filterItems }}
+    </q-card-section>
+
+    <q-list v-for="n in evenNumbers" :key="n" bordered separator>
+        <q-item clickable v-ripple>
+            <q-item-section>
+                {{ n }}
+            </q-item-section>
+        </q-item>
+    </q-list>
+    <q-separator/>
+
+    <q-list v-for="(numbers, index) in sets" :key="index" bordered separator>
+        <q-item v-for="n in even(numbers)" :key="n" clickable v-ripple>
+            <q-item-section>
+                <q-item-label class="text-h6 text-weight-bolder text-center">
+                    {{ n }}
+                </q-item-label>
+            </q-item-section>
+        </q-item>
+    </q-list>
+
+    <q-card-section>
+        {{ reverseNumbers }}
+    </q-card-section>
+    <q-separator/>
+
     <!-- 이벤트 핸들링 -->
+    <q-btn @click="count++" label="counts" color="primary"></q-btn>
+    <q-card-section>
+        Count is : {{ count }}
+    </q-card-section>
+
+    <div class="q-pa-md row items-start">
+        <q-btn
+            @click="greet"
+            label="greet"
+            color="secondary"
+            class="q-ma-sm"
+        ></q-btn>
+
+        <q-btn label="Alert" color="primary" @click="alert" class="q-ma-sm"/>
+        <q-btn label="Confirm" color="primary" @click="confirm" class="q-ma-sm"/>
+        <q-btn label="Prompt" color="primary" @click="prompt" class="q-ma-sm"/>
+    </div>
+
+    <div class="q-pa-md row items-start">
+        <q-btn
+            @click="say('안녕')"
+            label="안녕이라고 말하기"
+            color="secondary"
+            class="q-ma-sm"
+        ></q-btn>
+
+        <q-btn
+            @click="say('잘가')"
+            label="잘가라고 말하기"
+            color="secondary"
+            class="q-ma-sm"
+        ></q-btn>
+    </div>
+
+    <div class="q-pa-md row items-start">
+        <q-btn
+            @click="warn('아직 양식을 제출할 수 없습니다.', $event)"
+            label="아직 양식을 제출할 수 없습니다1"
+            color="secondary"
+            class="q-ma-sm"
+        ></q-btn>
+
+        <q-btn
+            @click="(event) => warn('아직 양식을 제출할 수 없습니다!!!', event)"
+            label="아직 양식을 제출할 수 없습니다2"
+            color="secondary"
+            class="q-ma-sm"
+        ></q-btn>
+    </div>
+    <q-separator/>
+
+    <div class="q-pa-md row items-start">
+        <!-- 클릭 이벤트 전파 중지 -->
+        <q-btn label="stop" color="primary" @click.stop="doThis" class="q-ma-sm"/>
+
+        <!-- submit 이벤트 페이지 리로드 안함 -->
+        <q-form
+            label="prevent"
+            color="primary"
+            @submit.prevent="doThis"
+            class="q-ma-sm"
+        >
+            <q-input v-model="name"/>
+            <q-btn label="submit" type="submit"></q-btn>
+        </q-form>
+
+        <!-- 수식어 연결 불가 -->
+        <q-btn
+            label="stopPrevent"
+            color="primary"
+            @click.stop.prevent="doThis()"
+            class="q-ma-sm"
+        ></q-btn>
+
+        <!-- 수식어만 사용 가능 -->
+        <q-form
+            label="prevent"
+            color="primary"
+            @submit.prevent
+            class="q-ma-sm"
+        >
+            <q-input v-model="name"/>
+            <q-btn label="submit" type="submit"></q-btn>
+        </q-form>
+
+        <!-- event.target가 본인일 경우에만 수행 -->
+        <q-btn label="self" color="primary" @click.self="doThis" class="q-ma-sm"/>
+    </div>
+    <q-separator/>
     
     <!-- Form 입력 바인딩 -->
-    
+    <q-card-section class="col-4">
+        <q-input
+            outlined
+            bottom-slots
+            v-model.lazy="text"
+            label="Label"
+            counter
+            :dense="true"
+        >
+            <template v-slot:prepend>
+                <q-icon name="place"/>
+            </template>
+            <template v-slot:append>
+                <q-icon name="close" @click="text = ''" class="cursor-pointer"/>
+            </template>
+            <template v-slot:hint>
+                Field hint
+            </template>
+        </q-input>
+    </q-card-section>
+
+    <input v-model="text">
+    <q-separator/><br>
+
+    메시지 입력하기 : {{ text }}
+    <q-input
+        outlined
+        bottom-slots
+        v-model.lazy="text"
+        label="Label"
+        counter
+        :dense="true"
+    >
+        <template v-slot:prepend>
+            <q-icon name="place"/>
+        </template>        
+        <template v-slot:append>
+            <q-icon name="close" @click="text = ''" class="cursor-pointer"/>
+        </template>
+        <template v-slot:hint>
+                Field hint
+            </template>
+    </q-input>
+    <q-separator/>
+
+    <span>여러 줄 메세지 : </span>
+    <p style="white-space : pre-line;"> {{ textArea }} </p>
+    <div class="q-pa-md" style="max-width: 300px">
+        <q-input
+            v-model="textArea"
+            filled
+            type="textarea"
+        />
+    </div>
+    <q-separator/>
+
+    <q-card-section class="col-4 q-mt-md">
+        <q-option-group
+            v-model="group"
+            :options="opts"
+            color="green"
+            type="checkbox"
+        />
+        {{ group }}
+    </q-card-section>
+    <q-separator/>
+
+    <q-card-section class="col-4 q-mt-md">
+        <q-radio v-model="color" val="teal" label="Teal" color="teal"/>
+        <q-radio v-model="color" val="orange" label="Orange" color="orange"/>
+        <q-radio v-model="color" val="red" label="Res" color="red"/>
+        <q-card-section>
+            {{ color }}
+        </q-card-section>
+    </q-card-section>
+    <q-separator/>
+
+    <q-card-section class="col-4">
+        <q-select
+            filled
+            bottom-slots
+            v-model="model"
+            :options="options2"
+            label="Label"
+            counter
+            dense
+            :options-dense="false"
+        >
+            <template v-slot:prepend>
+                <q-icon name="place" @click.stop.prevent/>
+            </template>
+            <template v-slot:append>
+                <q-icon
+                    name="close"
+                    @click.stop.prevent="model = ''"
+                    class="cursor-pointer"
+                />
+            </template>
+            <template v-slot:hint>Field hint</template>
+        </q-select>
+    </q-card-section>
+    <q-separator/>
+
+    <q-card-section class="col-4">
+        <q-select
+            filled
+            v-model="model2"
+            multiple
+            :options="options"
+            counter
+            max-values="2"
+            hint="Max2 selections"
+            style="width:250px"
+        >
+        </q-select>
+    </q-card-section>
+    <q-separator/>
+       
     <!-- 생명주기 훅 -->
     
     <!-- 감시자 -->
@@ -161,10 +561,28 @@ import { date } from 'quasar'
 import { nextTick } from 'vue'
 import { debounce } from 'lodash' //lodash-es 시 오류
 
+//클래스와 스타일 바인딩
+import ClassChild from "components/ClassChild.vue"
+
+//Form 입력 바인딩
+//생명주기 훅
+//감시자
+//템플릿 참조
+//컴포넌트 기초
+
 export default {
     name:'VueEx',
     title:'Vue Basic',
-    components:{},
+    components:{
+        //클래스와 스타일 바인딩
+        ClassChild
+
+        //Form 입력 바인딩
+        //생명주기 훅
+        //감시자
+        //템플릿 참조
+        //컴포넌트 기초
+    },
     data() {
         return {
             //템플릿 문법
@@ -226,11 +644,102 @@ export default {
             isActive2: true,
             error: null,
 
+            activeClass: 'active',
+            errorClass: 'text-danger',
+
+            styleObject: {
+                color: 'red',
+                fontSize: '13px'
+            },
+
+            baseStyles: {
+                textDecorationLine:'underline',
+                textDecorationThickness: '5px',
+                textDecorationColor: 'red',
+            },
+            overridingStyles:{
+                color:'blue',
+                fontSize:'35px',
+            },
             
             //조건부 렌더링
+            awesome2 : true,
+            type2 : "B",
+            ok2: true,
+
             //리스트 렌더링
+            listItems: [
+                { message: "Foo" },
+                { message: "Bar" }
+            ],
+
+            parentMessage : 'Parent',
+            listItems2 : [
+                { message: "Foo" },
+                { message: "Bar" }
+            ],
+
+            tupleListItems:[
+                { message: "Foo", children:["baby"] },
+                { message: "Bar", children:["child"] },
+            ],
+
+            myObject: {
+                title: 'Vue에서 목록을 작성하는 방법',
+                author: '홍길동',
+                publishedAt: '2016-04-10'
+            },
+
+            items: [
+                { message : "Foo" },
+                { message : "Bar" }
+            ],
+
+            numbers: [
+                1, 2, 3, 4, 5
+            ],
+
+            sets: [
+                [ 1, 2, 3, 4, 5 ],
+                [ 6, 7, 8, 9, 10 ]
+            ],
+
             //이벤트 핸들링
+            count : 0,
+            name: "Vue.js",
+
             //Form 입력 바인딩
+            text: "",
+            textArea: "",
+
+            group: ["op1"],
+            opts: [
+                {
+                    label: "Option 1",
+                    value: "op1",
+                },
+                {
+                    label: "Option 2",
+                    value: "op2",
+                },
+                {
+                    label: "Option 3",
+                    value: "op3",
+                },
+            ],
+
+            color:"",
+
+            options2: [
+                "Google",
+                "Facebook",
+                "Twitter",
+                "Apple",
+                "Oracle"
+            ],
+            model: null,
+            model2:[],
+
             //생명주기 훅
             //감시자
             //템플릿 참조
@@ -267,9 +776,22 @@ export default {
             }
         },
 
-        //조건부 렌더링
         //리스트 렌더링
-        //이벤트 핸들링
+        filterItems() {
+            return (this.items = this.items.filter((item) => 
+                item.message.match(/Foo/)
+            ));
+        },
+
+        evenNumbers() {
+            return this.numbers.filter(n => n % 2 === 0)
+        },
+
+        reverseNumbers() {
+            const numbers = this.numbers;
+            return [...numbers].reverse();
+        },
+
         //Form 입력 바인딩
         //생명주기 훅
         //감시자
@@ -301,11 +823,13 @@ export default {
         this.error = {};
         this.error.type = 'fatal';
 
-        //조건부 렌더링
         //리스트 렌더링
-        //이벤트 핸들링
-        //Form 입력 바인딩
+        console.log("list render");
+        this.l_func();
+        
         //생명주기 훅
+        console.log("component mounted!!@#$");
+
         //감시자
         //템플릿 참조
         //컴포넌트 기초
@@ -373,10 +897,76 @@ export default {
             return this.str;
         },
 
-        //클래스와 스타일 바인딩
-        //조건부 렌더링
         //리스트 렌더링
+        l_func() {
+            const parentMessage = 'Parent';
+            const listItems = [
+                "a1",
+                "a2"
+            ];
+
+            listItems.forEach((item, index) => {
+                console.log(parentMessage, item.message, index)
+            });
+        },
+
+        even(numbers) {
+            return numbers.filter(number => number % 2 === 0)
+        },
+        
         //이벤트 핸들링
+        greet(e) {
+            this.$q.notify({
+                message : `hello ${this.name}!`,
+                caption : "5 Minutes ago",
+                color: "secondary",
+            });
+        },
+
+        say(message) {
+            alert(message)
+        },
+
+        warn(message, event) {
+            if (event) {
+                event.preventDefault();
+                this.$q
+                .dialog({
+                    title: "Alert",
+                    message: `${message}`,
+                })
+                .onOk(() => {
+                    console.log('OK');
+                })
+                .onCancel(() => {
+                    console.log('Cancel');
+                })
+                .onDismiss(() => {
+                    console.log('Dismiss');
+                });
+            }
+        },
+
+        doThis(event) {
+            console.log(event)
+            this.$q.notify({
+                color:"green-5",
+                textColor:"white",
+                icon:"warning",
+                message:`doThis pointerType`,
+            });
+            console.log("doThis pointerType", event);
+        },
+        doThat(event) {
+            this.$q.notify({
+                color: "yellow-5",
+                textColor: "white",
+                icon: "warning",
+                message: `doThat pointerType`
+            });
+            console.log("doThat event", event);
+        },
+
         //Form 입력 바인딩
         //생명주기 훅
         //감시자
@@ -392,5 +982,29 @@ export default {
         color:red;
     }
 
-    /* */
+    .foo {
+        background-color: red;
+        color:white;
+    }
+
+    .bar {
+        color:white;
+    }
+
+    #hi {
+        font-size:3em;
+        color:darkorchid;
+    }
+
+    /* 조건부 렌더링 */
+    .my-card {
+        width:100%;
+        max-width: 250px;
+    }
+
+    /* Form 입력 바인딩 */
+    /* 생명주기 훅 */
+    /* 감시자 */
+    /* 템플릿 참조 */
+    /* 컴포넌트 기초 */
 </style>
