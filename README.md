@@ -3,6 +3,9 @@
 A Quasar Project
 
 ## Install the dependencies
+if you clone repositories. you must using command this
+ - vscode git bash terminal => yarn
+
 ```bash
 yarn
 # or
