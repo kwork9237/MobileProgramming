@@ -74,11 +74,13 @@ module.exports = configure(function (ctx) {
     },
 
     // Full list of options: https://v2.quasar.dev/quasar-cli-webpack/quasar-config-js#Property%3A-devServer
+    // devServer의 port 80으로 변경 (http 기본포트)
     devServer: {
       server: {
         type: 'http'
       },
-      port: 8080,
+      port: 80,
+      //port: 8080,
       open: true // opens browser window automatically
     },
 

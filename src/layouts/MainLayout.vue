@@ -56,6 +56,12 @@ const linksList = [
     icon: "school",
     link: "/vue"
   },
+  {
+    title : 'Shopping List',
+    caption : 'Vue 실습 1',
+    icon : 'code',
+    link : '/shop'
+  },
 ]
 /*
 const linksList = [

@@ -609,8 +609,8 @@
     <input ref="input">
     <ul>
         <!-- 밑에 빨간줄 상관없음 -->
-        <li v-for="item in list" ref="items">
-            {{ item }}
+        <li v-for="(item, index) in list" ref="items" :key="index">
+            {{ item }} - {{ index }}
         </li>
     </ul>
 
