@@ -62,6 +62,12 @@ const linksList = [
     icon : 'code',
     link : '/shop'
   },
+  {
+    title : '6week study',
+    caption : '6주차 실습',
+    icon : 'code',
+    link : './study/6week'
+  },
 ]
 /*
 const linksList = [
