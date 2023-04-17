@@ -56,23 +56,43 @@
                         @click.stop="removeItem(item.id)"
                     ></q-btn>
                 </q-item-section>
+                <q-item-section v-if="item.done=='Y'" side>
+                    <q-btn
+                        flat
+                        round
+                        dense
+                        color="primary"
+                        icon="edit"
+                        @click.stop="openDialog(item)"
+                    ></q-btn>
+                </q-item-section>
             </q-item>
         </q-list>
 
-        
+        <dialog-custom ref="dialog"
+            :edit-task="editTask"
+            :origin="origin"
+            @onInput="editTodo">
+        </dialog-custom>
     </q-page>
 </template>
 
 <script>
 import useTodoStore from "src/stores/todo";
 import { mapActions, mapState } from "pinia";
+import DialogCustom from 'src/components/DialogCustom.vue';
 
 export default {
+    components: { DialogCustom },
     name : "Todo",
     title : "Todo List",
     data() {
         return {
             newTask : "",
+
+            //DialogCustom value
+            editTask : null,
+            origin : null,
         };
     },
 
@@ -80,8 +100,12 @@ export default {
         ...mapState(useTodoStore, ["tasks"]),
     },
 
+    mounted() {
+        this.listTodo();
+    },
+
     methods : {
-        ...mapActions(useTodoStore, ["insertTodo", "removeTodo"]),
+        ...mapActions(useTodoStore, ["insertTodo", "removeTodo", "listTodo", "editTodo"]),
         async addTask() {
             if(this.newTask) {
                 this.insertTodo(this.newTask);
@@ -103,10 +127,17 @@ export default {
                 });
             }
         },
+
         removeItem(id) {
             this.removeTodo(id);
             this.newTask="";
         },
+
+        openDialog(item) {
+            this.$refs.dialog.dialog = true;
+            this.editTask = item;
+            this.origin = this.editTask.title;
+        }
     }
 }
 </script>

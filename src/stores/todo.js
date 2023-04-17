@@ -42,5 +42,13 @@ export default defineStore("useTodo", {
         listTodo() {
             this.tasks = LocalStorage.getItem("todo");
         },
+
+        editTodo(item) {
+            const idx = this.tasks.findIndex(task => task == item);
+            item.done = 'N';
+
+            this.tasks.splice(idx, 1, item);
+            LocalStorage.set("todo", this.tasks);
+        }
     }
 })
