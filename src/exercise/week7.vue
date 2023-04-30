@@ -51,9 +51,9 @@
                         flat
                         round
                         dense
-                        color="red"
-                        icon="delete"
-                        @click.stop="removeItem(item.id)"
+                        color="primary"
+                        icon="edit"
+                        @click.stop="openDialog(item)"
                     ></q-btn>
                 </q-item-section>
                 <q-item-section v-if="item.done=='Y'" side>
@@ -61,9 +61,9 @@
                         flat
                         round
                         dense
-                        color="primary"
-                        icon="edit"
-                        @click.stop="openDialog(item)"
+                        color="red"
+                        icon="delete"
+                        @click.stop="removeItem(item.id)"
                     ></q-btn>
                 </q-item-section>
             </q-item>
@@ -74,6 +74,10 @@
             :origin="origin"
             @onInput="editTodo">
         </dialog-custom>
+
+        <!--
+            자식을 depth라고 한다. depth가 깊어질수록 복잡해진다.
+        -->
     </q-page>
 </template>
 
@@ -97,6 +101,7 @@ export default {
     },
 
     computed : {
+        //todo.js의 tasks 값을 가져온다.
         ...mapState(useTodoStore, ["tasks"]),
     },
 
@@ -105,9 +110,11 @@ export default {
     },
 
     methods : {
+        // ... 은 모든 것을 가져온다는 의미이다.
         ...mapActions(useTodoStore, ["insertTodo", "removeTodo", "listTodo", "editTodo"]),
         async addTask() {
             if(this.newTask) {
+                //무조건 this로 접근해야 한다.
                 this.insertTodo(this.newTask);
 
                 await this.$q.notify({
@@ -143,6 +150,7 @@ export default {
 </script>
 
 <style lang="scss">
+/* scss는 클래스 안에 클래스를 생성할 수 있다. */
     .done {
         .q-item__label {
             text-decoration: line-through;

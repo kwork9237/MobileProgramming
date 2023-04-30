@@ -32,11 +32,12 @@
         </q-card>
     </q-dialog>
 </template>
-
 <script>
-export default {
+import { defineComponent } from 'vue';
+
+export default defineComponent ({
     name : "DialogCustom",
-    props : ['editTask', 'origin'],
+    props : ['editTask', 'origin'], //부모에게서 값을 받아온다.
     emits : ['onInput'],
 
     data() {
@@ -46,21 +47,21 @@ export default {
     },
 
     mounted() {},
-    watch() {},
+    watch : {},
     methods : {
         onOKClick() {
+            //수정된 데이터를 emit로 oninput라는 이름으로 부모에게 보낸다.
+            //emit는 방출하다라는 의미를 가짐'
+            if(!this.editTask.title) this.editTask.title = this.origin;
             this.$emit('onInput', this.editTask);
             this.dialog = false;
         },
 
-        onCalcelClick() {
-            this.editTask.title = this.origin;
-            this.dialog = false;
+        onCancelClick() {
+            (this.editTask.title = this.origin),
+            (this.dialog = false);
         },
     }
-}
+});
 </script>
-
-<style>
-
-</style>
+<style></style>

@@ -74,6 +74,12 @@ const linksList = [
     icon : 'code',
     link : './study/7week'
   },
+  {
+    title : '9week Todo',
+    caption : '9주차 실습 (ToDo DB)',
+    icon : 'chat',
+    link : './study/dbtodo'
+  },
 ]
 /*
 const linksList = [
