@@ -91,9 +91,9 @@ const remove = async (payload) => {
 
 const reset = async (payload) => {
     try {
-        if(token.remove != null) token.remove = token.remove.cancel("cancel remove");
+        if(token.reset != null) token.reset = token.reset.cancel("cancel reset");
 
-        token.reset = axios.cancelToken.source();
+        token.reset = axios.CancelToken.source();
         const result = await api.post(`${todoRouter}/reset`, payload, {
             cancelToken : token.reset.token
         });

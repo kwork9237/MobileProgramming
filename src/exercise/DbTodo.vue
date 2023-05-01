@@ -22,10 +22,7 @@
         </div>
 
         <!-- reset -->
-        <q-btn
-            label="reset"
-            @click="resetDb"
-        ></q-btn>
+        <q-btn label="reset" @click="resetDB"></q-btn>
 
         <!-- list -->
         <q-list class="bg-white" separator bordered>
@@ -62,7 +59,7 @@
                     <q-btn
                         flat round dense
                         color="primary"
-                        icon="edit"
+                        icon="delete"
                         @click.stop="removeDBItem(item)"
                     ></q-btn>
                 </q-item-section>
@@ -74,25 +71,25 @@
             <q-icon name="check" size="100px" color="primary"/>
             <div class="text-h5 text-primary text-center">No Tasks</div>
         </div>
-        <dialog-custom
+        <DialogCustom
             ref="dialog"
             :edit-task="editTask"
             :origin="origin"
             @onInput="editDBTodo"
         >
-        </dialog-custom>
+        </DialogCustom>
     </q-page>
 </template>
 
 <script>
-import DialogCustom from 'src/components/DialogCustom.vue';
 import { defineComponent } from 'vue';
 import todoApi from "src/apis/todoApi";
+import DialogCustom from 'components/DialogCustom.vue'
 
 export default defineComponent({
     name : "Todo",
     title : "DB Todo List",
-    componets : { DialogCustom },
+    components : { DialogCustom },
 
     data() {
         return {
@@ -114,7 +111,7 @@ export default defineComponent({
             if(!this.newTask)
                 this.$refs.list.focus();
 
-            const payload = { title : this.newtask };
+            const payload = { title : this.newTask, };
             const res = await todoApi.create(payload);
 
             if(res.status == 200) {
@@ -157,7 +154,7 @@ export default defineComponent({
         },
 
         //수정
-        async editDBTodo() {
+        async editDBTodo(item) {
             const idx = this.tasks.findIndex((task) => task == item);
             item.done = "N";
             this.tasks.splice(idx, 1, item);
@@ -173,7 +170,7 @@ export default defineComponent({
         },
 
         //삭제
-        async removeDBItem() {
+        async removeDBItem(item) {
             const idx = this.tasks.findIndex((task) => task.id == item.id);
             this.tasks.splice(idx, 1);
 
@@ -217,7 +214,7 @@ export default defineComponent({
             this.editTask = item;
             this.origin = this.editTask.title;
         },
-    }
+    },
 });
 </script>
 <style lang="scss">

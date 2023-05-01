@@ -74,9 +74,9 @@ function intercepterRes(name, isDev = false) {
 }
 
 const isDev = process.env.NODE_ENV == "development";
-const cfg = isDev ? Config.development : Config.production;
+const config = isDev ? Config.development : Config.production;
 const api = axios.create({
-  baseURL: cfg.API_SERVER, withCredentials: true
+  baseURL: config.API_SERVER, withCredentials: true
 });
 api.interceptors.response.use(intercepterRes("api", isDev));
 
@@ -84,14 +84,14 @@ api.interceptors.response.use(intercepterRes("api", isDev));
 export default boot(({ app }) => {
   // for use inside Vue files (Options API) through this.$axios and this.$api
 
-  app.config.globalProperties.$axios = axios
+  app.config.globalProperties.$axios = axios;
   // ^ ^ ^ this will allow you to use this.$axios (for Vue Options API form)
   //       so you won't necessarily have to import axios in each vue file
 
-  app.config.globalProperties.$api = api
+  app.config.globalProperties.$api = api;
   // ^ ^ ^ this will allow you to use this.$api (for Vue Options API form)
   //       so you can easily perform requests against your app's API
-})
+});
 
 //export { api }
 export { api, axios };
