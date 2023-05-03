@@ -80,6 +80,18 @@ const linksList = [
     icon : 'chat',
     link : './study/dbtodo'
   },
+  {
+    title : '9week Assignment',
+    caption : '9주차 과제 (Store)',
+    icon : 'chat',
+    link : './study/dbstore'
+  },
+  {
+    title : 'TEST1',
+    caption : 'TEST1',
+    icon : 'code',
+    link : './study/loginstore'
+  },
 ]
 /*
 const linksList = [

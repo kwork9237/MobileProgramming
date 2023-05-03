@@ -67,7 +67,7 @@
             <div v-intersection="onIntersection" v-if="tasks.length"></div>
         </q-list>
 
-        <div v-if="!tasks.legth" class="no-tasks absolute-center">
+        <div v-if="!tasks.length" class="no-tasks absolute-center">
             <q-icon name="check" size="100px" color="primary"/>
             <div class="text-h5 text-primary text-center">No Tasks</div>
         </div>

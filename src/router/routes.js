@@ -12,6 +12,10 @@ const routes = [
       { path: '/study/6week', component: () => import('../exercise/week6.vue') },
       { path: '/study/7week', component: () => import('../exercise/week7.vue') },
       { path: '/study/dbtodo', component: () => import('../exercise/DbTodo.vue') },
+      { path: '/study/dbstore', component: () => import('../exercise/DbStore.vue') },
+
+      //TEST
+      { path: '/study/loginstore', component: () => import('../exercise/LoginStore.vue') },
     ]
   },
 
