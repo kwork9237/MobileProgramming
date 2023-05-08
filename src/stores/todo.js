@@ -1,6 +1,7 @@
 import { defineStore } from "pinia";
 import { uid } from "quasar";
 import { LocalStorage } from "quasar"; //config -> plugins에 넣는다.
+import todoApi from "src/apis/todoApi";
 
 export default defineStore("useTodo", {
     state:() => ({
@@ -52,6 +53,6 @@ export default defineStore("useTodo", {
             //splice로 수정된 아이템 저장
             this.tasks.splice(idx, 1, item);
             LocalStorage.set("todo", this.tasks);
-        }
+        },
     }
 })

@@ -6,16 +6,13 @@
                 @keyup.enter="addDbTask"
                 class="col"
                 bg-color="white"
-                filled
+                filled dense
                 aria-placeholder="Add Task"
-                dense
             >
                 <template v-slot:append>
                     <q-btn
                         @click="addDbTask"
-                        round
-                        dense
-                        flat
+                        round dense flat
                         icon="add"></q-btn>
                 </template>
             </q-input>

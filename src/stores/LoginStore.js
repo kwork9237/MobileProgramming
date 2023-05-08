@@ -10,15 +10,24 @@ export default defineStore("loginStore", {
 
     actions : {
         loginCheck(id, pw) {
-            if(id == 'admin' && pw == 'admin')
+            if(id == 'admin' && pw == 'admin') {
                 this.loginStatus = true;
+                sessionStorage.setItem("loginStatus", this.loginStatus);
+            }
 
-            else
+            else {
                 this.loginStatus = false;
+                sessionStorage.setItem("loginStatus", this.loginStatus);
+            }
         },
 
         logoutProcess() {
             this.loginStatus = false;
+            sessionStorage.setItem("loginStatus", this.loginStatus);
+        },
+
+        getLoginStatus() {
+            return sessionStorage.getItem("loginStatus");
         }
     }
 })

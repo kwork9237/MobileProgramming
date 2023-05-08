@@ -1,4 +1,5 @@
 <template>
+    <!--<div v-if="getStatus()">-->
     <q-page class="bg-grey-3 column">
         <div class="row q-pa-sm bg-primary">
             <q-input
@@ -13,9 +14,7 @@
                 <template v-slot:append>
                     <q-btn
                         @click="addTask"
-                        round
-                        dense
-                        flat
+                        round dense flat
                         icon="add"
                     ></q-btn>
                 </template>
@@ -30,8 +29,7 @@
                 :key="item.title"
                 @click="item.done = item.done == 'Y' ? 'N' : 'Y'" 
                 :class="{ 'done bg-blue-1' : item.done == 'Y'}"
-                v-ripple
-                clickable
+                v-ripple clickable
             >
                 <q-item-section avatar>
                     <q-checkbox
@@ -50,9 +48,7 @@
                 </q-item-section>
                 <q-item-section v-if="item.done=='Y'" side>
                     <q-btn
-                        flat
-                        round
-                        dense
+                        flat round dense
                         color="primary"
                         icon="edit"
                         @click.stop="openDialog(item)"
@@ -60,12 +56,10 @@
                 </q-item-section>
                 <q-item-section v-if="item.done=='Y'" side>
                     <q-btn
-                        flat
-                        round
-                        dense
+                        flat round dense
                         color="red"
                         icon="delete"
-                        @click.stop="removeItem(item.id)"
+                        @click.stop="removeItem(item)"
                     ></q-btn>
                 </q-item-section>
             </q-item>
@@ -74,7 +68,7 @@
         <dialog-custom ref="dialog"
             :edit-task="editTask"
             :origin="origin"
-            @onInput="editDbStore">
+            @onInput="updateItem">
         </dialog-custom>
     </q-page>
 </template>
@@ -99,7 +93,7 @@ export default {
     },
 
     computed : {
-        ...mapState(useDbStore, ["tasks", "status", "cnt"]),
+        ...mapState(useDbStore, ["tasks"]),
     },
 
     mounted() {
@@ -108,21 +102,28 @@ export default {
 
     methods : {
         ...mapActions(useDbStore, ["insertDbStore", "removeDbStore", "listDbStore", "editDbStore", "resetDbStore", "statusDbStore"]),
-        async addTask() {
+        //create
+        addTask() {
             if(this.newTask) {
-                await this.$q.notify({
-                    message : `${this.newTask} 추가하셨습니다.`,
-                    icon : "home",
-                    color : "primary",
-                });
-
-                this.insertDbStore(this.newTask);
-
-                this.newTask = "";
+                if(this.insertDbStore(this.newTask)) {
+                    this.$q.notify({
+                        message : `${this.newTask} 추가하셨습니다.`,
+                        icon : "home",
+                        color : "primary",
+                    });
+                    this.newTask = "";
+                }
+                else {
+                    this.$q.notify({
+                        message : `DB 입력 실패`,
+                        icon : "warning",
+                        color : "red",
+                    });
+                }
             }
 
             else {
-                await this.$q.notify({
+                this.$q.notify({
                     message : `내용은 필수 입력입니다.`,
                     icon : "warning",
                     color : "red",
@@ -130,9 +131,28 @@ export default {
             }
         },
 
-        removeItem(id) {
-            this.removeDbStore(id);
-            this.newTask="";
+        //read
+        readItem() {
+            this.listDbStore();
+        },
+
+        //update
+        updateItem(item) {
+            if(this.editDbStore(item)) {
+                this.$q.notify({
+                    message: `수정 성공`,
+                    icon : "home",
+                    color : "primary"
+                });
+            }
+
+            else {
+                this.$q.notify({
+                    message: `수정 실패`,
+                    icon : "warning",
+                    color : "red"
+                });
+            }
         },
 
         openDialog(item) {
@@ -141,15 +161,50 @@ export default {
             this.origin = this.editTask.title;
         },
 
-        async clearItem() {
-            this.resetDbStore();
+        //delete
+        removeItem(item) {
+            const res = this.removeDbStore(item);
+            this.newTask="";
 
-            this.$q.notify({
-                message : `작업 초기화 완료`,
-                icon : "home",
-                color : "primary",
-            });
+            if(res) {
+                this.$q.notify({
+                    message: `${item.title} 삭제하셨습니다.`,
+                    icon : "home",
+                    color : "primary"
+                });
+            }
+
+            else {
+                this.$q.notify({
+                    message: `${item.title} 삭제 실패.`,
+                    icon : "warning",
+                    color : "red"
+                });
+            }
         },
+
+        //reset
+        clearItem() {
+            const res = this.resetDbStore();
+
+            if(res) {
+                this.$q.notify({
+                    message : `DB 초기화 완료`,
+                    icon : "home",
+                    color : "primary",
+                });
+            }
+
+            else {
+                this.$q.notify({
+                    message : `DB 초기화 실패`,
+                    icon : "warning",
+                    color : "red",
+                });
+            }
+        },
+
+  
     }
 }
 </script>

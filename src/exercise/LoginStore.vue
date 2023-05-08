@@ -13,7 +13,7 @@
         </q-page>
 
         <q-page v-else>
-            <q-btn label="LOGOUT" @click="this.logout()"></q-btn>
+            <q-btn label="LOGOUT" @click="logout()"></q-btn>
         </q-page>
     </div>
 </template>
