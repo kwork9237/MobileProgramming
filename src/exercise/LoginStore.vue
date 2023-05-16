@@ -35,10 +35,11 @@ export default {
         ...mapState(loginStore, ["loginStatus"]),
     },
     mounted() { 
+        this.getLoginStatus();
         console.log("loginStatus value : ", this.loginStatus);
     },
     methods : {
-        ...mapActions(loginStore, ["loginCheck", "logoutProcess"]),
+        ...mapActions(loginStore, ["loginCheck", "logoutProcess", "getLoginStatus"]),
         login() {
             this.loginCheck(this.uid, this.upw);
 
@@ -57,6 +58,9 @@ export default {
                     color : "red",
                 });
             }
+
+            //
+            console.log("loginStatus value : ", this.loginStatus);
         },
 
         logout() {
@@ -68,6 +72,9 @@ export default {
 
             this.uid = this.upw = '';
             this.logoutProcess();
+
+            //
+            console.log("loginStatus value : ", this.loginStatus);
         }
     }
 }

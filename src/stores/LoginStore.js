@@ -1,9 +1,17 @@
 import { defineStore } from "pinia";
 
 export default defineStore("loginStore", {
+    /*
     state:() => ({
         loginStatus : false,
     }),
+    */
+    //  http://localhost/study/dbstore
+    state : () => {
+        return {
+            loginStatus : undefined,
+        }
+    },
     
     getters : {
     },
@@ -27,7 +35,13 @@ export default defineStore("loginStore", {
         },
 
         getLoginStatus() {
-            return sessionStorage.getItem("loginStatus");
+            /* 
+            if(sessionStorage.getItem("loginStatus") != null)
+                this.loginStatus = sessionStorage.getItem("loginStatus");
+            else
+                sessionStorage.setItem("loginStatus");
+            */
+            return this.loginStatus;
         }
     }
 })

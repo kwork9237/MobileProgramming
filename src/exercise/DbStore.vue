@@ -1,5 +1,5 @@
 <template>
-    <!--<div v-if="getStatus()">-->
+<!--    <div v-if="!this.loginStatus">-->
     <q-page class="bg-grey-3 column">
         <div class="row q-pa-sm bg-primary">
             <q-input

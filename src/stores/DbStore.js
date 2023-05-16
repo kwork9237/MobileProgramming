@@ -4,7 +4,6 @@ import todoApi from "src/apis/todoApi";
 export default defineStore("useDbStore", {
     state:() => ({
         tasks:[],
-        status : false,
         cnt : 0,
     }),
     
@@ -12,10 +11,8 @@ export default defineStore("useDbStore", {
     },
 
     actions : {
-        //create > O
+        //create
         async insertDbStore(taskName) {
-            console.log("insertDbStore", taskName);
-
             const payload = { title : taskName };
             const res = await todoApi.create(payload);
 
@@ -38,10 +35,8 @@ export default defineStore("useDbStore", {
                 return false;
         },
 
-        //read > O
+        //read
         async listDbStore() {
-            console.log("listDbStore");
-                
             const len = 5;
             let lastId = this.tasks.length ? this.tasks[this.tasks.length - 1].id : 0;
     
@@ -61,8 +56,6 @@ export default defineStore("useDbStore", {
         
         //update
         async editDbStore(item) {
-            console.log("editDbStore");
-
             const idx = this.tasks.findIndex(task => task == item);
             item.done = 'N';
             this.tasks.splice(idx, 1, item);
@@ -76,10 +69,8 @@ export default defineStore("useDbStore", {
             }
         },
 
-        //delete > O
+        //delete
         async removeDbStore(item) {
-            console.log("removeDbStore");
-
             const idx = this.tasks.findIndex(task => task.id == item.id);
             this.tasks.splice(idx, 1);
 
@@ -89,10 +80,8 @@ export default defineStore("useDbStore", {
             else return false;
         },
         
-        //reset > O
+        //reset
         async resetDbStore() {
-            console.log("resetDbStore");
-
             const payload = {
                 title : "todo_",
                 done : "N",

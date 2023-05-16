@@ -1,7 +1,6 @@
 import { defineStore } from "pinia";
 import { uid } from "quasar";
 import { LocalStorage } from "quasar"; //config -> plugins에 넣는다.
-import todoApi from "src/apis/todoApi";
 
 export default defineStore("useTodo", {
     state:() => ({
