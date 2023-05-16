@@ -88,10 +88,10 @@ const linksList = [
     link : './study/dbstore'
   },
   {
-    title : '10week Todo',
-    caption : '10주차 실습 (ToDo DB)',
+    title : '11week Todo',
+    caption : '11주차 실습 (Login)',
     icon : 'code',
-    link : './layouts/signin'
+    link : './study/login'
   },
 
   //test

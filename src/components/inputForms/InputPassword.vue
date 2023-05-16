@@ -36,7 +36,7 @@ export default defineComponent({
         };
     },
     methods : {
-        onIpnut(val) {
+        onInput(val) {
             this.$emit("update:modelValue", val);
         }
     }

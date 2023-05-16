@@ -13,7 +13,7 @@ const routes = [
       { path: '/study/7week', component: () => import('../exercise/week7.vue') },
       { path: '/study/dbtodo', component: () => import('../exercise/DbTodo.vue') },
       { path: '/study/dbstore', component: () => import('../exercise/DbStore.vue') },
-      { path: '/study/singin', component: () => import('../layouts/SignIn.vue') },
+      { path: '/study/login', component: () => import('../layouts/Login.vue') },
 
       //TEST
       { path: '/study/loginstore', component: () => import('../exercise/LoginStore.vue') },

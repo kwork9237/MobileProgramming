@@ -68,7 +68,7 @@ export default defineComponent({
     computed : {},
     methods : {
         onInput(val) {
-            this.isCheck = this.origin ? this.origin === val : !this.chCheck;
+            this.isCheck = this.origin ? this.origin === val : !this.cbCheck;
             this.errMsg = "";
             this.$emit("update:modelValue", val);
         },
@@ -80,7 +80,7 @@ export default defineComponent({
             this.error = true;
             this.iconLoading = true;
 
-            const data = await this.chCheck(this.origin);
+            const data = await this.cbCheck(this.origin);
             if(data && data.cnt == 0) {
                 this.errMsg = `사용가능한 ${this.$attrs.label} 입니다.`;
                 this.isCheck = false;
@@ -117,5 +117,4 @@ export default defineComponent({
 </script>
 
 <style>
-
 </style>
