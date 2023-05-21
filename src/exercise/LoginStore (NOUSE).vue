@@ -19,7 +19,7 @@
 </template>
 
 <script>
-import loginStore from "src/stores/LoginStore";
+import loginStore from "src/stores/user";
 import { mapActions, mapState } from "pinia";
 
 export default {

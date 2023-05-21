@@ -77,7 +77,7 @@
             max-files="1"
             accept=".jpg, .jpeg, .png, image/*"
             hint="프로필 수정"
-            v-model="form.mb_iamge"
+            v-model="form.mb_image"
             dense rounded outlined counter bottom-slot
         ></InputFile>
 

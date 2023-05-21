@@ -8,7 +8,7 @@
         <template #prepend>
             <q-icon name="key"/>
         </template>
-        <template #appedn>
+        <template #append>
             <q-icon
                 :name="type ? 'visibility_off' : 'visibility'"
                 class="cursor-pointer"
